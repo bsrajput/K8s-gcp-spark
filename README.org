@@ -1,1 +1,6 @@
 #+Title: Running Spark on Kubernetes(K8s)
+
+* Getting Started with kops on GCE
+
+  Make sure you have installed kops and installed kubectl, and installed the gcloud tools.
+  You'll need a Google Cloud account, and make sure that gcloud is logged in to your account using gcloud init.
