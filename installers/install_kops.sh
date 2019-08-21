@@ -9,7 +9,7 @@ set -e
 
 
 install_kops() {
-    if [ ! -e "$KOPS_BIN"];
+    if [ ! -e "$KOPS_BIN" ];
     then
         echo "Installing kops..."
         curl -Lo kops https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64 && sudo chmod +x ./kops && sudo mv ./kops /usr/local/bin/
