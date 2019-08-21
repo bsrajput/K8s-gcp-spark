@@ -1,1 +1,2 @@
 bootstrap/gcp/envs
+bootstrap/gcp/out/terraform/data/google_compute_instance_template_master-us-east1-b-dois2019-engineerto-be_metadata_ssh-keys
