@@ -1,6 +1,19 @@
 #+Title: Running Spark on Kubernetes(K8s)
 
-* Getting Started with kops on GCE
+** Getting Started with kops on GCE
 
-  Make sure you have installed kops and installed kubectl, and installed the gcloud tools.
-  You'll need a Google Cloud account, and make sure that gcloud is logged in to your account using gcloud init.
+   Make sure you have installed kops and installed kubectl, and installed the gcloud tools.
+   You'll need a Google Cloud account, and make sure that gcloud is logged in to your account using gcloud init.
+
+
+*** Create Valid FQDN
+
+    kops uses DNS for discovery, both inside the cluster and so that you can reach the kubernetes API server from clients.
+    kops has a strong opinion on the cluster name: it should be a valid DNS name. By doing so you will no longer get your clusters confused, you can share clusters with your colleagues unambiguously, and you can reach them without relying on remembering an IP address.
+    This step is easy to mess up (it is the #1 cause of problems!) You can double-check that your cluster is configured correctly if you have the dig tool by running:
+
+    #+BEGIN_SRC
+
+      dig yourclusterfqdn
+
+    #+END_SRC
