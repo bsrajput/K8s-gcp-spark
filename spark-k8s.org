@@ -27,7 +27,8 @@
     drwxr-xr-x@   3 root  wheel     96 Aug 23 16:28 yarn
     #+END_SRC 
 
-- All your jars dependencies will be under jars , python dependencies under python and R dependencies will be under R
+- All your jars dependencies will be under jars , python dependencies under python and R dependencies will be under R.
+  The kubernetes folder contains Dockerfile needed to build the docker image for the spark apps
 
 - Run below command to generate spark docker image
  #+BEGIN_SRC 
@@ -38,10 +39,10 @@
 	
 	This will build the docker images for spark, spark-py and spark-r, 
 - To upload images to docker repo run below command
-	#+BEGIN_SRC 
-	./opt/spark/bin/docker-image-tool.sh -r <docker repo> -t <tagname> push
-	./opt/spark/bin/docker-image-tool.sh -r docker.io/sandeshvjti -t spark-dois push
-	#+END_SRC 
+ #+BEGIN_SRC 
+./opt/spark/bin/docker-image-tool.sh -r <docker repo> -t <tagname> push
+./opt/spark/bin/docker-image-tool.sh -r docker.io/sandeshvjti -t spark-dois push
+ #+END_SRC 
 	You can see the images upload here : https://hub.docker.com/u/sandeshvjti
 
 - To run the spark job use below command
@@ -50,4 +51,4 @@
 --class org.apache.spark.examples.SparkPi --conf spark.executor.instances=1 
 --conf spark.kubernetes.container.image=<repo:tagname> 
 local:///opt/spark/examples/jars/spark-examples_2.11-2.4.3.jar 
-#+END_SRC 
+ #+END_SRC 
