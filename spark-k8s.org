@@ -1,0 +1,53 @@
+* How to Run Spark job on K8s:
+
+** Here we will run SparkPi example on spark cluster
+
+- Download spark version - https://spark.apache.org/downloads.html. I have dowloaded - spark-2.4.3-bin-hadoop2.7.tgz
+- extract this under /opt/ , then use comands below
+
+
+   #+BEGIN_SRC 
+    mv spark-2.4.3-bin-hadoop2.7 spark
+
+    ls -ltr /opt/spark/
+    -rw-r--r--@   1 root  wheel  21316 Aug 23 16:28 LICENSE
+    -rw-r--r--@   1 root  wheel  42919 Aug 23 16:28 NOTICE
+    drwxr-xr-x@   3 root  wheel     96 Aug 23 16:28 R
+    -rw-r--r--@   1 root  wheel   3952 Aug 23 16:28 README.md
+    -rw-r--r--@   1 root  wheel    164 Aug 23 16:28 RELEASE
+    drwxr-xr-x@  29 root  wheel    928 Aug 23 16:28 bin
+    drwxr-xr-x@   9 root  wheel    288 Aug 23 16:28 conf
+    drwxr-xr-x@   5 root  wheel    160 Aug 23 16:28 data
+    drwxr-xr-x@   4 root  wheel    128 Aug 23 16:28 examples
+    drwxr-xr-x@ 228 root  wheel   7296 Aug 23 16:28 jars
+    drwxr-xr-x@   4 root  wheel    128 Aug 23 16:28 kubernetes
+    drwxr-xr-x@  49 root  wheel   1568 Aug 23 16:28 licenses
+    drwxr-xr-x@  19 root  wheel    608 Aug 23 16:28 python
+    drwxr-xr-x@  24 root  wheel    768 Aug 23 16:28 sbin
+    drwxr-xr-x@   3 root  wheel     96 Aug 23 16:28 yarn
+    #+END_SRC 
+
+- All your jars dependencies will be under jars , python dependencies under python and R dependencies will be under R
+
+- Run below command to generate spark docker image
+ #+BEGIN_SRC 
+./opt/spark/bin/docker-image-tool.sh -r <docker repo> -t <tagname> build
+./opt/spark/bin/docker-image-tool.sh -r docker.io/sandeshvjti -t spark-dois build
+  #+END_SRC 
+	
+	
+	This will build the docker images for spark, spark-py and spark-r, 
+- To upload images to docker repo run below command
+	#+BEGIN_SRC 
+	./opt/spark/bin/docker-image-tool.sh -r <docker repo> -t <tagname> push
+	./opt/spark/bin/docker-image-tool.sh -r docker.io/sandeshvjti -t spark-dois push
+	#+END_SRC 
+	You can see the images upload here : https://hub.docker.com/u/sandeshvjti
+
+- To run the spark job use below command
+ #+BEGIN_SRC 
+./opt/spark/bin/spark-submit  --master <k8smaster:port> --deploy-mode cluster --name spark-pi 
+--class org.apache.spark.examples.SparkPi --conf spark.executor.instances=1 
+--conf spark.kubernetes.container.image=<repo:tagname> 
+local:///opt/spark/examples/jars/spark-examples_2.11-2.4.3.jar 
+#+END_SRC 
