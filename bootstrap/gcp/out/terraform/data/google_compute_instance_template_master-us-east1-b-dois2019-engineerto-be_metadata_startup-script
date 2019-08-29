@@ -185,7 +185,7 @@ kubeAPIServer:
   - http://127.0.0.1:4001
   etcdServersOverrides:
   - /events#http://127.0.0.1:4002
-  image: k8s.gcr.io/kube-apiserver:v1.13.5
+  image: k8s.gcr.io/kube-apiserver:v1.13.10
   insecureBindAddress: 127.0.0.1
   insecurePort: 8080
   kubeletPreferredAddressTypes:
@@ -211,7 +211,7 @@ kubeControllerManager:
   clusterCIDR: 100.96.0.0/11
   clusterName: dois2019-engineerto-be
   configureCloudRoutes: true
-  image: k8s.gcr.io/kube-controller-manager:v1.13.5
+  image: k8s.gcr.io/kube-controller-manager:v1.13.10
   leaderElection:
     leaderElect: true
   logLevel: 2
@@ -219,10 +219,10 @@ kubeControllerManager:
 kubeProxy:
   clusterCIDR: 100.96.0.0/11
   cpuRequest: 100m
-  image: k8s.gcr.io/kube-proxy:v1.13.5
+  image: k8s.gcr.io/kube-proxy:v1.13.10
   logLevel: 2
 kubeScheduler:
-  image: k8s.gcr.io/kube-scheduler:v1.13.5
+  image: k8s.gcr.io/kube-scheduler:v1.13.10
   leaderElection:
     leaderElect: true
   logLevel: 2
@@ -278,9 +278,9 @@ __EOF_IG_SPEC
 
 cat > kube_env.yaml << '__EOF_KUBE_ENV'
 Assets:
-- ad77e78d50f90ea08159df5b66b97dd83f9a152b@https://storage.googleapis.com/kubernetes-release/release/v1.13.5/bin/linux/amd64/kubelet
-- 0e994d77be036cf9c7965f81248292dc8a11cd8c@https://storage.googleapis.com/kubernetes-release/release/v1.13.5/bin/linux/amd64/kubectl
-- c214093754b69150e62d019e438301abd65190b5@https://storage.googleapis.com/kubernetes-release/release/v1.13.5/bin/linux/amd64/mounter
+- 7f8a0f52388b331b24817a1adad58e66e09756be@https://storage.googleapis.com/kubernetes-release/release/v1.13.10/bin/linux/amd64/kubelet
+- 93f83b2714335d1348528ef10fabe1516bf3dfdb@https://storage.googleapis.com/kubernetes-release/release/v1.13.10/bin/linux/amd64/kubectl
+- 8ad007d41c1cb7f506280d5bcc6521f189dbffc5@https://storage.googleapis.com/kubernetes-release/release/v1.13.10/bin/linux/amd64/mounter
 - 52e9d2de8a5f927307d9397308735658ee44ab8d@https://storage.googleapis.com/kubernetes-release/network-plugins/cni-plugins-amd64-v0.7.5.tgz
 - 5464a1b8ce49134e9ec5b3b66767a6f22e7afd15@https://github.com/kubernetes/kops/releases/download/1.13.0/linux-amd64-utils.tar.gz,https://kubeupv2.s3.amazonaws.com/kops/1.13.0/linux/amd64/utils.tar.gz
 ClusterName: dois2019.engineerto.be
