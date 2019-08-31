@@ -76,6 +76,18 @@ To install kubectl and kops. Run below scripts
     #+BEGIN_SRC
       kubectl create -f namespace.yaml
     #+END_SRC
+    
+    e.g 
+     #+BEGIN_SRC
+      kubectl create namespace spark-dois
+      kubectl create serviceaccount spark-dois-sa -n spark-dois
+    #+END_SRC
+    
+    To give permissions for service account to launch spark cluster
+    #+BEGIN_SRC
+     kubectl create clusterrolebinding spark-role-dois --clusterrole=admin --serviceaccount=spark-dois:spark-dois-sa  --      namespace=spark-dois
+    #+END_SRC
+    
 
   - To list the specific name space in deployment k8s cluster
 
