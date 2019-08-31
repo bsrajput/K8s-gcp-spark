@@ -1,0 +1,96 @@
+* Kubernetes The Easy Way!
+
+To manage Kubernetes (from now onwards we will refer it as k8s) we use below components
+
+  - [[https://kubernetes.io/docs/tasks/tools/install-kubectl/][kubectl]]
+  - [[https://github.com/kubernetes/kops][kops]]
+
+To install kubectl and kops. Run below scripts
+
+[[https://raw.githubusercontent.com/abhishekamralkar/K8s-gcp-spark/master/installers/install_kops.sh][   install kops]]
+
+   [[https://raw.githubusercontent.com/abhishekamralkar/K8s-gcp-spark/master/installers/install_kubectl.sh][install kubectl]]
+
+* Kubernetes Terminologies
+
+  - *Pod*
+
+    To run containers in Kubernetes it uses the concept of a “pod”. A pod is a grouping of one or more containers that are closely related. They start and stop together and run on the same host.
+    Each pod gets a dedicated ip address in the Kubernetes cluster. Multiple pods can run on the same host whilst being fully isolated from each other. Applications in different pods can use the same ports for their communication without causing problems. Outside the pod their ports are NAT’ed, allowing multiple applications using the same port to run on the same host.
+
+    Inside the pod localhost resolves to the pod, not the host running the pod. This can be used to let multiple applications running in the same pod to communicate with each other using localhost and the original port the applications listen to. This makes communication inside a pod fast and more secure as it doesn’t hit the network.
+    shares the network and storage. In short a pod consist of application containers, network, storage.
+
+  - *Services*
+
+    A service in Kubernetes is the entry for traffic into your application. It can be used for accessing an application just internally in the Kubernetes cluster or to expose the application via an external load balancer to the public internet. We’ll do the last one.
+    Internally you can access the service with the url http://<service name>/. This will automatically resolve to the service as long as you’re in the same namespace. This is still possible when configured as an externally load balanced service.
+    Externally it will use a load balancer with a single ip address to lead to the same service.
+
+
+  - *Deployment*
+
+    Now that the service is set up it has no place yet to send the traffic, because there are no pods with label(s) that match the selector in the service. This decoupling between services and pods in Kubernetes allows you to create them in any order.
+
+    To create those pods it’s easiest to use the deployment object even though it’s still in beta. It uses a manifest that specifies what containers to run in the pod, what environment variables to inject into these containers, which ports are exposed and what labels are set on the pods.
+
+    The deployment is a high level abstraction. When created it creates a ReplicaSet which is responsible for creating a number of pods equal to the configured number of replicas. For each new deployment a new ReplicaSet is created, but it keeps the old ones around for quick rollbacks, with a maximum of ReplicaSets equal to the value of revisionHistoryLimit. The rolling update of the deployment ensures all the old ReplicaSets are updated to 0 replicas and only the latest has pods running.
+
+
+  - Namespace
+
+    In Kubernetes you run your applications in a namespace; inside the same namespace you can discover the other applications by service name. The isolation namespaces provide allow you to reuse the same service name in different namespaces, resolving to the applications running in those namespaces. This allows you to create your different “environments” in the same cluster if you wish to do so. For development, test, acceptance and production you would create 4 separate namespaces.
+
+* Kubectl handy commands
+
+  - To check the cluster info
+
+    #+BEGIN_SRC
+      kubectl cluster-info
+    #+END_SRC
+
+  - To check all the services running in k8s cluster
+
+    #+BEGIN_SRC
+      kubectl get services
+    #+END_SRC
+
+  - To check all the namespaces in the k8s cluster
+
+    #+BEGIN_SRC
+      kubectl get pods --all-namespaces
+    #+END_SRC
+
+  - To create namespace in the k8s cluster
+
+    #+BEGIN_SRC
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+         name: ${NAMESPACE}
+    #+END_SRC
+
+    Once you use the above template and save the template in a file, make sure to replace namespace with the desired name.
+    EX *mynamespace*
+
+    #+BEGIN_SRC
+      kubectl create -f namespace.yaml
+    #+END_SRC
+
+  - To list the specific name space in deployment k8s cluster
+
+    #+BEGIN_SRC
+      kubectl get deployment -n mynamespace
+    #+END_SRC
+
+  - To list all the pods in the namespace
+
+    #+BEGIN_SRC
+      kubectl get pods -n mynamespace
+    #+END_SRC
+
+  - To describe the pods in the namespace
+
+    #+BEGIN_SRC
+      kubectl describe pods -n mynamespace
+    #+END_SRC

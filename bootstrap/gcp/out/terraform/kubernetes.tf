@@ -286,7 +286,7 @@ resource "google_compute_instance_group_manager" "b-nodes-dois2019-engineerto-be
 
 resource "google_compute_instance_template" "master-us-east1-b-dois2019-engineerto-be" {
   can_ip_forward = true
-  machine_type   = "n1-standard-1"
+  machine_type   = "n1-standard-4"
 
   service_account = {
     scopes = ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/monitoring", "https://www.googleapis.com/auth/logging.write", "https://www.googleapis.com/auth/devstorage.read_write", "https://www.googleapis.com/auth/ndev.clouddns.readwrite"]
@@ -326,7 +326,7 @@ resource "google_compute_instance_template" "master-us-east1-b-dois2019-engineer
 
 resource "google_compute_instance_template" "nodes-dois2019-engineerto-be" {
   can_ip_forward = true
-  machine_type   = "n1-standard-1"
+  machine_type   = "n1-standard-2"
 
   service_account = {
     scopes = ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/monitoring", "https://www.googleapis.com/auth/logging.write", "https://www.googleapis.com/auth/devstorage.read_only"]
